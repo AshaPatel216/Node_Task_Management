@@ -18,7 +18,42 @@ Node_Task_Management/
 └── backend/               # Node.js backend application
 ```
 
-## Backend Setup
+## Local Setup Guide
+
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd Node_Task_Management
+```
+
+### 2. Database Setup
+
+1. Install PostgreSQL from [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+   - Keep default username as `postgres`
+   - Set a password (remember this for later)
+   - Keep default port as `5432`
+
+2. Open pgAdmin (PostgreSQL GUI)
+   - Click on "Servers" > PostgreSQL
+   - Enter your password when prompted
+
+3. Create Database
+   - Right-click on `Databases`
+   - Click `Create > Database`
+   - Name it `task_manager`
+   - Click `Save`
+
+4. Create Tables
+   - Expand `task_manager` database
+   - Right-click on **Schemas > Tables**
+   - Click `Query Tool`
+   - Paste and run the following SQL:
+
+```sql
+Tables creation based on need
+```
+
+### 3. Backend Setup
 
 1. Navigate to the backend directory:
 ```bash
@@ -30,7 +65,14 @@ cd backend
 npm install
 ```
 
-3. Create a PostgreSQL database and update the database configuration in `index.js`
+3. Create `.env` file in the backend directory:
+```env
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=task_manager
+DB_PASSWORD=your_postgres_password
+DB_PORT=5432
+```
 
 4. Start the backend server:
 ```bash
@@ -38,7 +80,7 @@ npm start
 ```
 The backend server will run on `http://localhost:5000`
 
-## Frontend Setup
+### 4. Frontend Setup
 
 1. Navigate to the frontend directory:
 ```bash
@@ -81,6 +123,7 @@ npm start
 - pg: PostgreSQL client
 - bcrypt: Password hashing
 - jsonwebtoken: JWT authentication
+- dotenv: Environment variables management
 
 ### Frontend Dependencies
 - react: UI library
@@ -94,10 +137,17 @@ npm start
 - Frontend development server runs on `http://localhost:3000`
 - Make sure both servers are running for full functionality
 
-## Contributing
+## Testing the Setup
+
+1. After setting up both frontend and backend, visit `http://localhost:5000/api/test-db` in your browser
+2. If you see the current timestamp, your database connection is working correctly
+3. Visit `http://localhost:3000` to access the frontend application
+
+## Contributing.
 
 1. Fork the repository
 2. Create your feature branch
 3. Commit your changes
 4. Push to the branch
 5. Create a new Pull Request
+
