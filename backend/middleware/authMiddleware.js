@@ -1,21 +1,31 @@
+/**
+ * Authentication middleware to protect routes.
+ * It verifies the JWT token from the Authorization header.
+ * If the token is valid, it attaches the user's ID to the request object.
+ */
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
+const authMiddleware = (req, res, next) => {
+  // Extract token from "Bearer <token>"
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ error: "Access denied. Token missing." });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Authorization token not found' });
   }
+
+  const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "mysecretkey");
-    req.user = decoded; // attach user data to request
-    next(); // continue to route handler
+    // Verify the token and decode its payload
+    const decoded = jwt.verify(token, 'mysecretkey');
+    // Attach user ID to the request object for use in subsequent routes
+    req.user = { id: decoded.id };
+    next();
   } catch (err) {
-    return res.status(403).json({ error: "Invalid or expired token" });
+    // If token is invalid or expired
+    res.status(401).json({ error: 'Invalid or expired token' });
   }
-}
+};
 
-module.exports = authenticateToken;
+module.exports = authMiddleware;

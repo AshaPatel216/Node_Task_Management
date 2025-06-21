@@ -1,4 +1,7 @@
-// src/pages/Login.jsx
+/**
+ * Login page component.
+ * This component renders the authentication form in 'login' mode.
+ */
 import AuthForm from '../components/AuthForm.jsx';
 
 export default function Login() {

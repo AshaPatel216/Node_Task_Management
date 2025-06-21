@@ -1,13 +1,28 @@
+/**
+ * Main application entry file for the backend server.
+ * This file sets up the Express server, configures middleware,
+ * and defines the API routes.
+ */
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const pool = require('./db'); // database connection
 const authRoutes = require('./routes/auth'); // authentication routes
+const taskRoutes = require('./routes/tasks'); // Import task routes
 
-app.use(express.json()); // to parse the request body
-app.use(cors()); // to allow requests from different origins
+// Middleware setup
+app.use(express.json()); // Parses incoming JSON requests
+app.use(cors());         // Enables Cross-Origin Resource Sharing
 
-app.use('/api', authRoutes); // authentication routes
+// Root endpoint
+app.get('/', (req, res) => {
+    res.json({ message: 'Task Management API is running!' });
+});
+
+// API routes
+app.use('/api', authRoutes);     // Mounts authentication routes (e.g., /api/login, /api/register)
+app.use('/api/tasks', taskRoutes); // Mounts task-related routes (e.g., /api/tasks)
 
 // Routes
 // Test DB route
@@ -20,8 +35,7 @@ app.get("/api/test-db", async (req, res) => {
     }
   });
 
-
-// Server is running on port 5000
+// Server initialization
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

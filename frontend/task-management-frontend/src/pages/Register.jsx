@@ -1,5 +1,8 @@
-// src/pages/Register.jsx
-import AuthForm from '../components/AuthForm.jsx';
+/**
+ * Register page component.
+ * This component renders the authentication form in 'register' mode.
+ */
+import AuthForm from '../components/AuthForm';
 
 export default function Register() {
   return (
