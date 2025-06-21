@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import toast from 'react-hot-toast';
 import { login, register } from "../services/authService";
 
 export default function AuthForm({ type }) {
@@ -72,10 +73,11 @@ export default function AuthForm({ type }) {
         await register(formData);
       }
       
-      alert(`${isLogin ? "Logged in" : "Registered"} successfully!`);
+      toast.success(`${isLogin ? "Logged in" : "Registered"} successfully!`);
       navigate("/dashboard");
     } catch (err) {
       setApiError(err.message || "Something went wrong");
+      toast.error(err.message || "Something went wrong");
     }
   };
 

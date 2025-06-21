@@ -4,6 +4,7 @@
  * It uses a Zustand store for state management and interacts with common dialog components.
  */
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import useTaskStore from '../store/useTaskStore';
 import TaskDialog from '../components/TaskDialog';
 import DeleteDialog from '../components/DeleteDialog';
@@ -51,13 +52,16 @@ const Tasks = () => {
       if (selectedTask) {
         // If a task is selected, update it
         await updateTask(selectedTask.id, formData);
+        toast.success('Task updated successfully!');
       } else {
         // Otherwise, create a new task
         await addTask(formData);
+        toast.success('Task created successfully!');
       }
       handleCloseDialogs(); // Close dialog on success
     } catch (err) {
       console.error("Failed to save task:", err);
+      toast.error('Failed to save task.');
     }
   };
   
@@ -66,9 +70,11 @@ const Tasks = () => {
     if (selectedTask) {
       try {
         await deleteTask(selectedTask.id);
+        toast.success('Task deleted successfully!');
         handleCloseDialogs();
       } catch (err) {
         console.error("Failed to delete task:", err);
+        toast.error('Failed to delete task.');
       }
     }
   };
